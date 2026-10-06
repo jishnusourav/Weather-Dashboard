@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Accurate Weather Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <div class="weather-card">
+
+        <!-- HEADER -->
+
+        <header>
+
+            <div class="logo">
+                🌤️
+            </div>
+
+            <div>
+
+                <h1>Weather Dashboard</h1>
+
+                <p>
+                    Live weather information and forecast
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- SEARCH -->
+
+        <form id="weatherForm">
+
+            <div class="search-area">
+
+                <input
+                    type="text"
+                    id="cityInput"
+                    placeholder="Search city..."
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">
+                    🔍 Search
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loading"
+            class="loading hidden"
+        >
+
+            <div class="spinner"></div>
+
+            <p>
+                Getting the latest weather data...
+            </p>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            id="errorMessage"
+            class="error hidden"
+        ></div>
+
+
+        <!-- WEATHER -->
+
+        <main
+            id="weatherResult"
+            class="hidden"
+        >
+
+            <!-- LOCATION -->
+
+            <section class="location-section">
+
+                <div>
+
+                    <h2 id="cityName">
+                        --
+                    </h2>
+
+                    <p id="locationDetails">
+                        --
+                    </p>
+
+                </div>
+
+                <div class="coordinates">
+
+                    <span>
+                        📍
+                    </span>
+
+                    <span id="coordinates">
+                        --
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- CURRENT WEATHER -->
+
+            <section class="current-weather">
+
+                <div class="main-condition">
+
+                    <div
+                        id="weatherIcon"
+                        class="weather-icon"
+                    >
+                        ☀️
+                    </div>
+
+                    <div>
+
+                        <div class="temperature">
+
+                            <span id="temperature">
+                                --
+                            </span>
+
+                            <span>°C</span>
+
+                        </div>
+
+                        <p id="description">
+                            --
+                        </p>
+
+                        <p class="updated">
+
+                            Data time:
+                            <span id="dataTime">
+                                --
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="today-range">
+
+                    <div>
+                        🔺
+                        <strong id="todayMax">
+                            --
+                        </strong>°C
+                    </div>
+
+                    <div>
+                        🔻
+                        <strong id="todayMin">
+                            --
+                        </strong>°C
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- DETAILS -->
+
+            <section class="details-grid">
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        🌡️
+                    </span>
+
+                    <span class="label">
+                        Feels Like
+                    </span>
+
+                    <strong>
+                        <span id="feelsLike">
+                            --
+                        </span>°C
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        💧
+                    </span>
+
+                    <span class="label">
+                        Humidity
+                    </span>
+
+                    <strong>
+                        <span id="humidity">
+                            --
+                        </span>%
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        🌧️
+                    </span>
+
+                    <span class="label">
+                        Rain
+                    </span>
+
+                    <strong>
+                        <span id="rain">
+                            --
+                        </span> mm
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        ☁️
+                    </span>
+
+                    <span class="label">
+                        Cloud Cover
+                    </span>
+
+                    <strong>
+                        <span id="cloudCover">
+                            --
+                        </span>%
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        💨
+                    </span>
+
+                    <span class="label">
+                        Wind
+                    </span>
+
+                    <strong>
+                        <span id="windSpeed">
+                            --
+                        </span> km/h
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        🧭
+                    </span>
+
+                    <span class="label">
+                        Wind Direction
+                    </span>
+
+                    <strong id="windDirection">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        💨
+                    </span>
+
+                    <span class="label">
+                        Wind Gusts
+                    </span>
+
+                    <strong>
+                        <span id="windGusts">
+                            --
+                        </span> km/h
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        👁️
+                    </span>
+
+                    <span class="label">
+                        Visibility
+                    </span>
+
+                    <strong>
+                        <span id="visibility">
+                            --
+                        </span> km
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="detail-icon">
+                        🎈
+                    </span>
+
+                    <span class="label">
+                        Pressure
+                    </span>
+
+                    <strong>
+                        <span id="pressure">
+                            --
+                        </span> hPa
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+            <!-- SUN -->
+
+            <section class="sun-section">
+
+                <div class="sun-card">
+
+                    <span>
+                        🌅
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Sunrise
+                        </small>
+
+                        <strong id="sunrise">
+                            --
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sun-card">
+
+                    <span>
+                        🌇
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Sunset
+                        </small>
+
+                        <strong id="sunset">
+                            --
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- 7 DAY FORECAST -->
+
+            <section>
+
+                <div class="section-title">
+
+                    <h2>
+                        📅 7-Day Forecast
+                    </h2>
+
+                </div>
+
+                <div
+                    id="forecast"
+                    class="forecast"
+                ></div>
+
+            </section>
+
+
+            <!-- DATA INFORMATION -->
+
+            <section class="data-info">
+
+                <h3>
+                    ℹ️ Weather Data Information
+                </h3>
+
+                <p>
+                    Weather values are model-based estimates
+                    and can differ from conditions measured
+                    at a specific location. Always consider
+                    local official weather information for
+                    important decisions.
+                </p>
+
+                <p>
+                    Source:
+                    <strong>
+                        Open-Meteo
+                    </strong>
+                </p>
+
+                <p>
+                    Timezone:
+                    <strong id="timezone">
+                        --
+                    </strong>
+                </p>
+
+                <p>
+                    Elevation:
+                    <strong id="elevation">
+                        --
+                    </strong>
+                </p>
+
+            </section>
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <p>
+                Built with Python • Flask • JavaScript
+            </p>
+
+        </footer>
+
+    </div>
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+
+</body>
+
+</html>
